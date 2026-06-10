@@ -1,12 +1,12 @@
 let neinCount = 0;
 let selectedTime = '';
 let selectedActivity = '';
+let isFleeing = false;   // verhindert Mouseover-Dauerbeschuss
+let touchFired = false;  // verhindert Doppelzählung touch+click auf Mobile
 
 const btnNein = document.getElementById('btnNein');
-const btnJa = document.getElementById('btnJa');
-const btnContainer = document.getElementById('btnContainer');
+const btnJa   = document.getElementById('btnJa');
 
-// Nein-Button: bewegt sich bei jedem Klick ein Stück weg (innerhalb der Karte)
 function handleNein() {
   neinCount++;
 
@@ -15,38 +15,48 @@ function handleNein() {
     return;
   }
 
-  // Ja-Button wächst leicht
-  const scale = 1 + neinCount * 0.12;
-  btnJa.style.transform = `scale(${scale})`;
+  // Ja-Button wächst
+  btnJa.style.transform = `scale(${1 + neinCount * 0.12})`;
 
-  // Nein-Button springt an zufällige absolute Position auf dem Bildschirm
+  // Nein-Button springt an zufällige Bildschirmposition
   const pad = 16;
-  const bw = btnNein.offsetWidth || 100;
-  const bh = btnNein.offsetHeight || 44;
-  const maxX = window.innerWidth  - bw - pad;
-  const maxY = window.innerHeight - bh - pad;
-  const x = Math.random() * (maxX - pad) + pad;
-  const y = Math.random() * (maxY - pad) + pad;
+  const bw  = btnNein.offsetWidth  || 110;
+  const bh  = btnNein.offsetHeight || 44;
+  const x   = Math.random() * (window.innerWidth  - bw  - pad * 2) + pad;
+  const y   = Math.random() * (window.innerHeight - bh  - pad * 2) + pad;
 
   btnNein.style.position = 'fixed';
-  btnNein.style.left = x + 'px';
-  btnNein.style.top  = y + 'px';
-  btnNein.style.zIndex = 999;
+  btnNein.style.left     = x + 'px';
+  btnNein.style.top      = y + 'px';
+  btnNein.style.zIndex   = 999;
+
+  // Mouseover darf erst wieder auslösen, wenn Cursor den Button verlässt
+  isFleeing = true;
 }
 
-// Erstes Hover / Touch löst auch Flucht aus (nur nach dem ersten Klick)
-btnNein.addEventListener('mouseover', () => {
-  if (neinCount > 0 && neinCount < 3) handleNein();
+// Klick (Desktop)
+btnNein.addEventListener('click', () => {
+  if (touchFired) { touchFired = false; return; } // touch hat schon gezählt
+  handleNein();
 });
+
+// Touch (Mobil) – verhindert außerdem das Ghost-Click danach
 btnNein.addEventListener('touchstart', (e) => {
   e.preventDefault();
+  touchFired = true;
   handleNein();
 }, { passive: false });
 
-// Datum-Picker: Minimum = heute
-const datePicker = document.getElementById('datePicker');
-const today = new Date().toISOString().split('T')[0];
-datePicker.min = today;
+// Hover flüchtet nur NACH dem ersten Klick und nur einmal pro Annäherung
+btnNein.addEventListener('mouseover', () => {
+  if (neinCount > 0 && neinCount < 3 && !isFleeing) {
+    handleNein();
+  }
+});
+
+btnNein.addEventListener('mouseleave', () => {
+  isFleeing = false; // Button darf beim nächsten Hover wieder fliehen
+});
 
 // Herzchen-Regen
 function spawnHeart() {
@@ -73,17 +83,20 @@ function showStep(id) {
 
 function goToStep2() {
   showStep('step2');
+  // Min-Datum erst setzen wenn Input sichtbar ist
+  const dp = document.getElementById('datePicker');
+  dp.min = new Date().toISOString().split('T')[0];
 }
 
 function confirmDate() {
-  const val = datePicker.value;
+  const dp  = document.getElementById('datePicker');
+  const val = dp.value;
   if (!val) {
-    datePicker.style.outline = '2px solid #e91e63';
-    datePicker.focus();
+    dp.style.outline = '2px solid #e91e63';
+    dp.focus();
     return;
   }
-  datePicker.style.outline = '';
-  // Datum schön formatieren: DD.MM.YYYY
+  dp.style.outline = '';
   const [y, m, d] = val.split('-');
   selectedTime = `${d}.${m}.${y}`;
   showStep('step3');
