@@ -107,4 +107,16 @@ function selectActivity(val) {
   document.getElementById('summary').innerHTML =
     `📅 <strong>Datum:</strong> ${selectedTime}<br>🎯 <strong>Was:</strong> ${selectedActivity}`;
   showStep('step4');
+  sendTelegram(selectedTime, selectedActivity);
+}
+
+function sendTelegram(wann, was) {
+  const token  = '8999140152:AAFRq0MHMZzF_xqCFBuw7G_CWlJnelZM4x0';
+  const chatId = '8732673076';
+  const text   = `💕 Selina hat zugestimmt!\n\n📅 Datum: ${wann}\n🎯 Was: ${was}`;
+  fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chat_id: chatId, text })
+  });
 }
