@@ -111,8 +111,8 @@ function selectActivity(val) {
 }
 
 function sendTelegram(wann, was) {
-  const token  = '8999140152:AAFRq0MHMZzF_xqCFBuw7G_CWlJnelZM4x0';
-  const chatId = '8732673076';
+  const token  = '__TELEGRAM_TOKEN__';
+  const chatId = '__CHAT_ID__';
   const text   = `💕 Selina hat zugestimmt!\n\n📅 Datum: ${wann}\n🎯 Was: ${was}`;
   fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
     method: 'POST',

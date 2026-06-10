@@ -24,6 +24,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Inject secrets into script
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: |
+          sed -i "s|__TELEGRAM_TOKEN__|${TELEGRAM_TOKEN}|g" script.js
+          sed -i "s|__CHAT_ID__|${CHAT_ID}|g" script.js
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
