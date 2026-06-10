@@ -1,0 +1,196 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ffe0f0 0%, #ffd6e8 50%, #fce4ec 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Schwebende Herzchen */
+.hearts-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.heart {
+  position: absolute;
+  bottom: -40px;
+  font-size: 1.4rem;
+  animation: floatUp linear infinite;
+  opacity: 0.7;
+}
+
+@keyframes floatUp {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+  100% { transform: translateY(-110vh) rotate(20deg); opacity: 0; }
+}
+
+/* Karte */
+.card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  border-radius: 2rem;
+  padding: 2.5rem 2rem;
+  max-width: 480px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(233, 30, 99, 0.15);
+  position: relative;
+  z-index: 1;
+  animation: cardIn 0.5s ease;
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.emoji-big {
+  font-size: 3.5rem;
+  margin-bottom: 0.6rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.12); }
+}
+
+h1 {
+  font-size: 1.5rem;
+  color: #c2185b;
+  margin-bottom: 1.8rem;
+  line-height: 1.4;
+}
+
+h2 {
+  font-size: 1.4rem;
+  color: #c2185b;
+  margin-bottom: 1.4rem;
+}
+
+p {
+  color: #ad1457;
+  margin-bottom: 1rem;
+  font-size: 1.05rem;
+}
+
+/* Schritt-Sichtbarkeit */
+.step {
+  display: none;
+}
+.step.active {
+  display: block;
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Ja/Nein Buttons */
+.buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.btn {
+  border: none;
+  border-radius: 50px;
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  font-weight: 700;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-yes {
+  background: linear-gradient(135deg, #f48fb1, #e91e63);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(233, 30, 99, 0.35);
+}
+
+.btn-yes:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 20px rgba(233, 30, 99, 0.45);
+}
+
+.btn-no {
+  background: #f8bbd0;
+  color: #ad1457;
+  box-shadow: 0 3px 10px rgba(173, 20, 87, 0.15);
+  position: fixed; /* wird per JS bewegt */
+  transition: none;
+}
+
+/* Optionen-Buttons */
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.opt-btn {
+  background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+  border: 2px solid #f48fb1;
+  border-radius: 50px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  color: #880e4f;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.15s;
+}
+
+.opt-btn:hover, .opt-btn:focus {
+  background: linear-gradient(135deg, #f48fb1, #e91e63);
+  color: #fff;
+  transform: scale(1.04);
+  box-shadow: 0 4px 14px rgba(233, 30, 99, 0.3);
+  outline: none;
+}
+
+/* Zusammenfassung */
+.summary {
+  background: linear-gradient(135deg, #fce4ec, #ffd6e8);
+  border-radius: 1rem;
+  padding: 1rem 1.5rem;
+  margin: 1rem 0;
+  color: #880e4f;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  font-weight: 600;
+  box-shadow: inset 0 2px 8px rgba(233,30,99,0.08);
+}
+
+.confetti-msg {
+  font-size: 1.4rem;
+  margin-top: 0.5rem;
+  animation: bounce 1s ease infinite alternate;
+}
+
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-6px); }
+}
+
+@media (max-width: 420px) {
+  .card { padding: 2rem 1.2rem; }
+  h1 { font-size: 1.25rem; }
+  .btn { padding: 0.65rem 1.5rem; font-size: 1rem; }
+}

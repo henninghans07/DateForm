@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Willst du mit mir auf ein Date gehen? 💕</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="hearts-container" id="hearts"></div>
+
+  <main class="card" id="app">
+    <!-- Schritt 1 -->
+    <section class="step active" id="step1">
+      <div class="emoji-big">💕</div>
+      <h1>Willst du mit mir auf ein Date gehen?</h1>
+      <div class="buttons">
+        <button class="btn btn-yes" id="btnJa" onclick="goToStep2()">Ja 💖</button>
+        <button class="btn btn-no" id="btnNein">Nein 🙈</button>
+      </div>
+    </section>
+
+    <!-- Schritt 2 -->
+    <section class="step" id="step2">
+      <div class="emoji-big">📅</div>
+      <h2>Wann hast du Zeit?</h2>
+      <div class="options">
+        <button class="opt-btn" onclick="selectTime('Diese Woche')">Diese Woche 🗓️</button>
+        <button class="opt-btn" onclick="selectTime('Am Wochenende')">Wochenende 🎉</button>
+        <button class="opt-btn" onclick="selectTime('Nächste Woche')">Nächste Woche 🌸</button>
+        <button class="opt-btn" onclick="selectTime('So schnell wie möglich')">So schnell wie möglich 🚀</button>
+      </div>
+    </section>
+
+    <!-- Schritt 3 -->
+    <section class="step" id="step3">
+      <div class="emoji-big">🥰</div>
+      <h2>Worauf hast du Lust?</h2>
+      <div class="options">
+        <button class="opt-btn" onclick="selectActivity('Essen gehen')">Essen gehen 🍝</button>
+        <button class="opt-btn" onclick="selectActivity('Kino')">Kino 🎬</button>
+        <button class="opt-btn" onclick="selectActivity('Spazieren')">Spazieren 🌳</button>
+        <button class="opt-btn" onclick="selectActivity('Kaffee')">Kaffee ☕</button>
+        <button class="opt-btn" onclick="selectActivity('Überrasch mich')">Überrasch mich 🎁</button>
+      </div>
+    </section>
+
+    <!-- Schritt 4 -->
+    <section class="step" id="step4">
+      <div class="emoji-big">🥰</div>
+      <h2>Super, ich freu mich!</h2>
+      <p>Ich hol dich dann ab. 🚗💨</p>
+      <div class="summary" id="summary"></div>
+      <div class="confetti-msg">Das wird toll! 💕✨</div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
